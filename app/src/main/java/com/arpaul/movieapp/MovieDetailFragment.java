@@ -32,6 +32,7 @@ import com.arpaul.movieapp.Parsers.MoviesReviewParser;
 import com.arpaul.movieapp.Parsers.MoviesTrailerParser;
 import com.arpaul.movieapp.TheMovieAPI.MovieAPI;
 import com.arpaul.movieapp.Utilities.CalendarUtils;
+import com.arpaul.movieapp.Utilities.WrappingLinearLayoutManager;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -102,7 +103,7 @@ public class MovieDetailFragment extends Fragment implements DataListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.content_detail, container, false);
 
-        ButterKnife.inject(this,rootView);
+        ButterKnife.inject(this, rootView);
 
         if(movieDetailDO != null) {
             tvReleaseDate.setText(CalendarUtils.getCommaFormattedDate(movieDetailDO.RELASE_DATEE));
@@ -110,17 +111,25 @@ public class MovieDetailFragment extends Fragment implements DataListener {
             tvPlotSynopsis.setText(movieDetailDO.OVERVIEw);
         }
 
+        bindControls();
+
+        movieAPI = new MovieAPI(this);
+        movieAPI.getReview(movieDetailDO.ID);
+        movieAPI.getTrailers(movieDetailDO.ID);
+
+        return rootView;
+    }
+
+    private void bindControls() {
+        WrappingLinearLayoutManager layoutManagerReview = new WrappingLinearLayoutManager(getActivity());
         reviewAdapter = new ReviewAdapter(getActivity(),new ArrayList<MovieReviewDO>());
         rvReview.setAdapter(reviewAdapter);
+        rvReview.setLayoutManager(layoutManagerReview);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         trailerAdapter = new TrailerAdapter(getActivity(),new ArrayList<MovieTrailerDO>());
         rvTrailer.setAdapter(trailerAdapter);
         rvTrailer.setLayoutManager(layoutManager);
-
-        movieAPI = new MovieAPI(this);
-        movieAPI.getReview(movieDetailDO.ID);
-        movieAPI.getTrailers(movieDetailDO.ID);
 
         btnFavourite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,8 +171,6 @@ public class MovieDetailFragment extends Fragment implements DataListener {
                 }
             }
         });
-
-        return rootView;
     }
 
     @Override
