@@ -61,8 +61,8 @@ public class ContentProviderHelper extends ContentProvider {
                   db.beginTransaction();
                   try {
 
-                      for (int i = 0; i < values.length; i++) {
-                          long _id = db.insert(MoviesCPConstants.FAVOURITES_TABLE_NAME, null, values[i]);
+                      for (ContentValues value : values /*int i = 0; i < values.length; i++*/) {
+                          long _id = db.insert(MoviesCPConstants.FAVOURITES_TABLE_NAME, null, value);
                           if (_id > 0) {
                               returnURI = MoviesCPConstants.buildMoviesUri(_id);
                               numInserted++;
@@ -164,9 +164,6 @@ public class ContentProviderHelper extends ContentProvider {
             query = "DELETE FROM "+MoviesCPConstants.FAVOURITES_TABLE_NAME+" WHERE "+MoviesParser.TAG_ID + " = "+selection;
             Log.d("movies_delete_query",query);
         }
-        /*count = db.delete(MoviesCPConstants.FAVOURITES_TABLE_NAME,
-                MoviesParser.TAG_ID + " = " + selection +
-                (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : ""), selectionArgs);*/
 
         switch (uriMatcher.match(uri)) {
             case MOVIES:
