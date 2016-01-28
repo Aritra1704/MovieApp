@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.arpaul.movieapp.MovieDetailFragment"
+    tools:showIn="@layout/activity_movie_detail">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/tvReleaseDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dip"
+                android:text="Release Date"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvVoteAverage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dip"
+                android:text="Vote Average" />
+
+            <Button
+                android:id="@+id/btnFavourite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dip"
+                android:text="Favourite" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvPlotSynopsis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dip" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="@color/colorgrey"
+            android:padding="5dip" />
+
+        <TextView
+            android:id="@+id/tvTrailer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="Trailer"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <view
+            android:id="@+id/rvTrailer"
+            class="android.support.v7.widget.RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="100dip"
+            app:layoutManager="LinearLayoutManager" />
+
+        <TextView
+            android:id="@+id/tvReview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dip"
+            android:text="Review"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+
+        <view
+            android:id="@+id/rvReview"
+            class="android.support.v7.widget.RecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:layoutManager="LinearLayoutManager" />
+    </LinearLayout>
+</LinearLayout>

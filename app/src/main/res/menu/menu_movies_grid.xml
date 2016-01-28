@@ -1,0 +1,34 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.arpaul.latestmovieapp.MoviesGridActivity">
+    <item
+        android:id="@+id/popularity"
+        android:orderInCategory="100"
+        android:title="@string/popularity"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/release"
+        android:orderInCategory="100"
+        android:title="@string/release"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/rated"
+        android:orderInCategory="100"
+        android:title="@string/rated"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/revenue"
+        android:orderInCategory="100"
+        android:title="@string/revenue"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/favourites"
+        android:orderInCategory="100"
+        android:title="@string/favourites"
+        app:showAsAction="never" />
+</menu>
