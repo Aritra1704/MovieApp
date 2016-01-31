@@ -37,13 +37,13 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerH
     public class TrailerHolder extends RecyclerView.ViewHolder {
 
         View view_Cell;
-        //TextView tvAuthor;
         ImageView ivPlay;
+        ImageView ivShare;
         public TrailerHolder(View view) {
             super(view);
             view_Cell   =    view;
-            //tvAuthor    =   (TextView) view.findViewById(R.id.tvAuthor);
             ivPlay      =   (ImageView) view.findViewById(R.id.ivPlay);
+            ivShare     =   (ImageView) view.findViewById(R.id.ivShare);
         }
     }
 
@@ -73,6 +73,15 @@ public class TrailerAdapter extends RecyclerView.Adapter<TrailerAdapter.TrailerH
             @Override
             public void onClick(View v) {
                 showFullTrailerPopup(movieTrailerDO);
+            }
+        });
+        holder.ivShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, String.format(youtubeURL, movieTrailerDO.Key)/*Uri.parse(String.format(youtubeURL,movieTrailerDO.Key))*/);
+                context.startActivity(Intent.createChooser(sharingIntent, "Share via"));
             }
         });
     }

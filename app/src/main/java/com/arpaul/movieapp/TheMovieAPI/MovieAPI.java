@@ -80,7 +80,7 @@ public class MovieAPI {
         return STATUS_INVALID_API_KEY;
     }
 
-    public void getPopularMoviesJSON(final int type) {
+    public void getPopularMoviesJSON(final int type,final int page) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -101,7 +101,7 @@ public class MovieAPI {
                     default :
                         sortOrder = "sort_by="+POPULARITY+"&";
                 }
-                String popularURL = MAIN_URL+"discover/movie?"+sortOrder+"api_key="+API_KEY;
+                String popularURL = MAIN_URL+"discover/movie?"+sortOrder+"api_key="+API_KEY+"&page="+page;
                 String data = getJSON(popularURL);
 
                 if(data != null)

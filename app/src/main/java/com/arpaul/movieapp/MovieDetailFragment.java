@@ -53,7 +53,7 @@ public class MovieDetailFragment extends Fragment implements DataListener {
     @InjectView(R.id.tvPlotSynopsis) TextView tvPlotSynopsis;
     @InjectView(R.id.tvReview) TextView tvReview;
     @InjectView(R.id.tvTrailer) TextView tvTrailer;
-    @InjectView(R.id.btnFavourite) Button btnFavourite;
+    @InjectView(R.id.btnFavourite) ImageView btnFavourite;
     @InjectView(R.id.rvReview) RecyclerView rvReview;
     @InjectView(R.id.rvTrailer) RecyclerView rvTrailer;
 
@@ -217,9 +217,11 @@ public class MovieDetailFragment extends Fragment implements DataListener {
 
     private void setFavourites(boolean state) {
         if(state)
-            btnFavourite.setBackgroundColor(getResources().getColor(R.color.colorOffWhite));
+            btnFavourite.setBackgroundResource(R.drawable.favourite);
+            //btnFavourite.setBackgroundColor(getResources().getColor(R.color.colorOffWhite));
         else
-            btnFavourite.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+            btnFavourite.setBackgroundResource(R.drawable.favourite_h);
+            //btnFavourite.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
     }
 
     private void showinUIThread(final int Type) {

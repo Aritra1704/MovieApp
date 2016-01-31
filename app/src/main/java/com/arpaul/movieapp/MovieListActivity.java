@@ -1,17 +1,22 @@
 package com.arpaul.movieapp;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.graphics.Movie;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -47,7 +52,9 @@ public class MovieListActivity extends AppCompatActivity implements DataListener
     private MovieAPI movieAPI;
     private int TYPE = MovieAPI.TYPE_POPULAR_MOVIES;
     private LinkedHashMap<String,MovieDetailDO> arrMoviesData;
+    private int PAGE = 1;
 
+    @InjectView(R.id.swipeRefreshLayout) SwipeRefreshLayout swipeRefreshLayout;
     @InjectView(R.id.movie_list) RecyclerView recyclerView;
     @InjectView(R.id.toolbar) Toolbar toolbar;
 
@@ -64,7 +71,7 @@ public class MovieListActivity extends AppCompatActivity implements DataListener
 
         assert recyclerView != null;
         setupGridRecycler();
-        setupRecyclerView((RecyclerView) recyclerView);
+        setupRecyclerView();
 
         if (findViewById(R.id.movie_detail_container) != null) {
             // The detail container view will be present only in the
@@ -82,7 +89,6 @@ public class MovieListActivity extends AppCompatActivity implements DataListener
         }
 
         getSupportLoaderManager().initLoader(1, null, MovieListActivity.this);
-        /*initCursorLoader();*/
 
         movieAPI = new MovieAPI(this);
         loadData();
@@ -96,17 +102,23 @@ public class MovieListActivity extends AppCompatActivity implements DataListener
     }
 
     private void loadData() {
-        if(TYPE != MovieAPI.TYPE_FAVOURITES)
-            movieAPI.getPopularMoviesJSON(TYPE);
+        if(TYPE != MovieAPI.TYPE_FAVOURITES) {
+            showLoader("Please wait..");
+            movieAPI.getPopularMoviesJSON(TYPE,PAGE);
+        }
         else
             getSupportLoaderManager().restartLoader(1, null, MovieListActivity.this);
     }
 
     public void DataRetrieved(final String data, int type, int status) {
         if(status == MovieAPI.get_STATUS_SUCCESS() && data != null) {
-            arrMoviesData = new MoviesParser().readPopularMoviesJSONData(data);
+            if(PAGE == 1)
+                arrMoviesData = new MoviesParser().readPopularMoviesJSONData(data);
+            else
+                arrMoviesData.putAll(new MoviesParser().readPopularMoviesJSONData(data));
             showGrid(arrMoviesData);
         }
+        hideLoader();
     }
 
     @Override
@@ -187,12 +199,26 @@ public class MovieListActivity extends AppCompatActivity implements DataListener
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         setupGridRecycler();
-        /*startFragment();*/
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+    private void setupRecyclerView() {
         adapter = new GridAdapter(MovieListActivity.this,getSupportFragmentManager(),new LinkedHashMap<String,MovieDetailDO>());
         recyclerView.setAdapter(adapter);
+
+        //swipeRefreshLayout.setLayoutMode(Mode.BOTH);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                PAGE++;
+                loadData();
+                Log.d("pagerefresh", "came: " + PAGE);
+            }
+        });
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_red_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_blue_bright);
+
     }
 
     @Override
@@ -223,6 +249,7 @@ public class MovieListActivity extends AppCompatActivity implements DataListener
         } else {
             TYPE = MovieAPI.TYPE_POPULAR_MOVIES;
         }
+        PAGE=1;
         loadData();
 
         return super.onOptionsItemSelected(item);
@@ -235,5 +262,31 @@ public class MovieListActivity extends AppCompatActivity implements DataListener
         else{
             recyclerView.setLayoutManager(new GridLayoutManager(MovieListActivity.this, 3));
         }*/
+    }
+
+    private ProgressDialog progress;
+    private void showLoader(String message) {
+
+        if(progress == null)
+            progress = new ProgressDialog(MovieListActivity.this);
+
+        progress.setMessage(message);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+
+        if(!progress.isShowing())
+            progress.show();
+    }
+
+    private void hideLoader() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if(progress != null && progress.isShowing())
+                    progress.dismiss();
+                if(swipeRefreshLayout.isRefreshing())
+                    swipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 }

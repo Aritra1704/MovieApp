@@ -1,8 +1,10 @@
 package com.arpaul.movieapp.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,23 +28,21 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
 
     private Context context;
     private ArrayList<MovieReviewDO> arrMovieReview;
-    //private DynamicHeight dynamicHeight;
     public ReviewAdapter(Context context, ArrayList<MovieReviewDO> arrMovieReview) {
         this.context = context;
-        //this.dynamicHeight = dynamicHeight;
         this.arrMovieReview = arrMovieReview;
     }
 
     public class ReviewHolder extends RecyclerView.ViewHolder {
 
         TextView tvAuthor;
-        ImageView ivPlay;
+        ImageView ivShare;
         View view_Cell;
         public ReviewHolder(View view) {
             super(view);
             view_Cell   = view;
             tvAuthor    =   (TextView) view.findViewById(R.id.tvAuthor);
-            ivPlay      =   (ImageView) view.findViewById(R.id.ivPlay);
+            ivShare      =   (ImageView) view.findViewById(R.id.ivShare);
         }
     }
 
@@ -64,17 +64,6 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
     public void onBindViewHolder(final ReviewAdapter.ReviewHolder holder,final int position) {
         final MovieReviewDO movieReviewDO = arrMovieReview.get(position);
         holder.tvAuthor.setText(movieReviewDO.AUTHOR);
-        holder.ivPlay.setVisibility(View.GONE);
-
-        holder.view_Cell.post(new Runnable() {
-            @Override
-            public void run() {
-                int cellWidth = holder.itemView.getWidth();// this will give you cell width dynamically
-                int cellHeight = holder.itemView.getHeight();// this will give you cell height dynamically
-
-                //dynamicHeight.HeightChange(MovieAPI.TYPE_MOVIE_REVIEW, position, cellWidth, cellHeight);
-            }
-        });
 
         holder.view_Cell.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,9 +71,18 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
                 showFullReviewPopup(movieReviewDO);
             }
         });
+        holder.ivShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+                sharingIntent.setType("text/plain");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, movieReviewDO.CONTENT);
+                context.startActivity(Intent.createChooser(sharingIntent, "Share via"));
+            }
+        });
     }
 
-    private void showFullReviewPopup(MovieReviewDO movieReviewDO) {
+    private void showFullReviewPopup(final MovieReviewDO movieReviewDO) {
         View view            =   LayoutInflater.from(context).inflate(R.layout.review_cell,null,false);
         TextView tvAuthor    =   (TextView) view.findViewById(R.id.tvAuthor);
         TextView tvContent   =   (TextView) view.findViewById(R.id.tvContent);
@@ -93,6 +91,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
         tvAuthor.setText(movieReviewDO.AUTHOR);
         tvContent.setText(movieReviewDO.CONTENT);
         tvLink.setText(movieReviewDO.LINK);
+
+        tvContent.setMovementMethod(new ScrollingMovementMethod());
 
         PopupWindow popupWindow = new PopupWindow(context);
 
@@ -103,7 +103,8 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.ReviewHold
         popupWindow.setOutsideTouchable(true);
         popupWindow.setTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
-        popupWindow.showAtLocation(view, Gravity.CENTER,20,60);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 20, 60);
+
     }
 
     @Override
