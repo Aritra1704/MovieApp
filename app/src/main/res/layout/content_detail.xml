@@ -33,19 +33,26 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/tvVoteAverage"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="8dip"
-                android:text="Vote Average" />
+                android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/btnFavourite"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dip"
-                android:text="Favourite" />
+                <TextView
+                    android:id="@+id/tvVoteAverage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="8dip"
+                    android:text="Vote Average" />
+
+                <ImageView
+                    android:id="@+id/btnFavourite"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="20dip"
+                    android:layout_height="wrap_content"
+                    android:padding="8dip"
+                    android:background="@drawable/favourite_h" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView
