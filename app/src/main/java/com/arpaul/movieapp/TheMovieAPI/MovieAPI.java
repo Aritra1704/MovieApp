@@ -23,7 +23,7 @@ public class MovieAPI {
 
     private Context context;
     private DataListener dataListener = null;
-    private final String API_KEY = "ee21341b61127db25dfab0bf7606f7ed";
+    private final String API_KEY = "API_KEY";
     private final String MAIN_URL = "http://api.themoviedb.org/3/";
     public final static String IMAGE_URL_DETAIL = "http://image.tmdb.org/t/p/w780";
     public final static String IMAGE_URL_GRID = "http://image.tmdb.org/t/p/w342";
