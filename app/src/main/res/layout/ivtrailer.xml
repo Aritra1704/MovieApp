@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/detail_cell">
 
     <ImageView
         android:id="@+id/ivPlay"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_gravity="center_vertical"
         android:layout_margin="3dip"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:padding="2dip" />
 
     <ImageView
@@ -29,5 +32,5 @@
         android:layout_alignParentRight="true"
         android:layout_margin="3dip"
         android:padding="2dip"
-        android:src="@drawable/share" />
+        android:src="@drawable/share_white" />
 </RelativeLayout>

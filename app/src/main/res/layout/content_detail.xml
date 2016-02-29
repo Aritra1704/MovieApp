@@ -80,7 +80,7 @@
             android:id="@+id/rvTrailer"
             class="android.support.v7.widget.RecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="100dip"
+            android:layout_height="180dip"
             app:layoutManager="LinearLayoutManager" />
 
         <TextView

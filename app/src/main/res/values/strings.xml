@@ -9,4 +9,6 @@
     <string name="favourites">Favourites</string>
 
     <string name="please_wait">Please wait..</string>
+
+    <string name="api_key"></string>
 </resources>
