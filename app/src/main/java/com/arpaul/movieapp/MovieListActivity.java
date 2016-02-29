@@ -90,7 +90,7 @@ public class MovieListActivity extends AppCompatActivity implements DataListener
 
         getSupportLoaderManager().initLoader(1, null, MovieListActivity.this);
 
-        movieAPI = new MovieAPI(this);
+        movieAPI = new MovieAPI(this,this);
         loadData();
     }
 
@@ -218,7 +218,6 @@ public class MovieListActivity extends AppCompatActivity implements DataListener
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_blue_bright);
-
     }
 
     @Override

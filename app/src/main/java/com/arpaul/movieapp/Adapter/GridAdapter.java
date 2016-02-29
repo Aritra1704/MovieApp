@@ -64,7 +64,7 @@ public class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final MovieDetailDO objMovieDetail = arrMoviesData.get(vecMoviewID.get(position));
 
-        String imagePath = MovieAPI.IMAGE_URL_GRID+objMovieDetail.POSTER_PATH;
+        String imagePath = MovieAPI.getImageURL(context)+objMovieDetail.POSTER_PATH;
         Picasso.with(context).load(imagePath).into(holder.ivPosterImage);
 
         holder.mView.setOnClickListener(new View.OnClickListener() {

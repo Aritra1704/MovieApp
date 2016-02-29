@@ -113,7 +113,7 @@ public class MovieDetailFragment extends Fragment implements DataListener {
 
         bindControls();
 
-        movieAPI = new MovieAPI(this);
+        movieAPI = new MovieAPI(getActivity(),this);
         movieAPI.getReview(movieDetailDO.ID);
         movieAPI.getTrailers(movieDetailDO.ID);
 

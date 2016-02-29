@@ -3,6 +3,8 @@ package com.arpaul.movieapp.TheMovieAPI;
 import android.content.Context;
 
 import com.arpaul.movieapp.Listener.DataListener;
+import com.arpaul.movieapp.R;
+import com.arpaul.movieapp.Utilities.ConfigurationUtility;
 import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
@@ -23,10 +25,18 @@ public class MovieAPI {
 
     private Context context;
     private DataListener dataListener = null;
-    private final String API_KEY = "API_KEY";
+    private String API_KEY = "API_KEY";
     private final String MAIN_URL = "http://api.themoviedb.org/3/";
-    public final static String IMAGE_URL_DETAIL = "http://image.tmdb.org/t/p/w780";
-    public final static String IMAGE_URL_GRID = "http://image.tmdb.org/t/p/w342";
+
+    public final static String IMAGE_URL_SMALL = "http://image.tmdb.org/t/p/w92";
+    public final static String IMAGE_URL_MEDIUM = "http://image.tmdb.org/t/p/w154";
+    public final static String IMAGE_URL_NORMAL = "http://image.tmdb.org/t/p/w185";
+    public final static String IMAGE_URL_LARGE = "http://image.tmdb.org/t/p/w342";
+    public final static String IMAGE_URL_XLARGE = "http://image.tmdb.org/t/p/w500";
+    public final static String IMAGE_URL_XXLARGE = "http://image.tmdb.org/t/p/w780";
+
+    public final static String IMAGE_URL_DETAIL = IMAGE_URL_XXLARGE;
+    public final static String IMAGE_URL_GRID = IMAGE_URL_LARGE;
 
     private final String POPULARITY = "popularity.desc";
     private final String RELEASE_DATE = "release_date.desc";
@@ -36,8 +46,11 @@ public class MovieAPI {
 
     private final int TIMEOUT = 10000;
 
-    public MovieAPI(DataListener dataListener) {
+    public MovieAPI(Context context,DataListener dataListener) {
+        this.context = context;
         this.dataListener = dataListener;
+
+        API_KEY = context.getString(R.string.api_key);
     }
 
     public final static int TYPE_POPULAR_MOVIES         = 1;
@@ -200,5 +213,20 @@ public class MovieAPI {
                 }
             }
         });
+    }
+
+    public static String getImageURL(Context context){
+        switch(ConfigurationUtility.screenSize(context)){
+            case ConfigurationUtility.SCREEN_SIZE_SMALL:
+                return IMAGE_URL_SMALL;
+            case ConfigurationUtility.SCREEN_SIZE_NORMAL:
+                return IMAGE_URL_NORMAL;
+            case ConfigurationUtility.SCREEN_SIZE_LARGE:
+                return IMAGE_URL_LARGE;
+            case ConfigurationUtility.SCREEN_SIZE_XLARGE:
+                return IMAGE_URL_XLARGE;
+            default:
+                return IMAGE_URL_XLARGE;
+        }
     }
 }
