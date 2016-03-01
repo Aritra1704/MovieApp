@@ -255,12 +255,12 @@ public class MovieListActivity extends AppCompatActivity implements DataListener
     }
 
     private void setupGridRecycler() {
-        //if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+        if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             recyclerView.setLayoutManager(new GridLayoutManager(MovieListActivity.this, 2));
-        /*}
+        }
         else{
             recyclerView.setLayoutManager(new GridLayoutManager(MovieListActivity.this, 3));
-        }*/
+        }
     }
 
     private ProgressDialog progress;

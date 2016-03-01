@@ -30,7 +30,7 @@
         <android.support.v7.widget.RecyclerView xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/movie_list"
             android:name="com.arpaul.movieapp.MovieListFragment"
-            android:layout_width="@dimen/item_width"
+            android:layout_width="@dimen/tab_pane_width"
             android:layout_height="match_parent"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
