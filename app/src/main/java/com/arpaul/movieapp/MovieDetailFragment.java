@@ -195,6 +195,12 @@ public class MovieDetailFragment extends Fragment implements DataListener {
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        movieAPI.cancelRequest();
+    }
+
+    @Override
     public void DataRetrieved(String data, int Type, int Status) {
         if(Status == MovieAPI.get_STATUS_SUCCESS() && data != null) {
             if(Type == MovieAPI.TYPE_MOVIE_REVIEW) {

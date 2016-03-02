@@ -167,12 +167,14 @@ public class MovieAPI {
         return null;
     }
 
+    OkHttpClient okHttpClientReview;
+    Call callReview;
     public void getReview(String ID) {
-        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClientReview = new OkHttpClient();
         String requestURL = MAIN_URL+"movie/"+ID+"/reviews?api_key="+API_KEY;
         Request request = new Request.Builder().url(requestURL).build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
+        callReview = okHttpClientReview.newCall(request);
+        callReview.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 dataListener.DataRetrieved("", TYPE_MOVIE_REVIEW, STATUS_FAILED);
@@ -180,7 +182,7 @@ public class MovieAPI {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && dataListener != null) {
                     String review = response.body().string();
                     if (review != null)
                         dataListener.DataRetrieved(review, TYPE_MOVIE_REVIEW, STATUS_SUCCESS);
@@ -191,12 +193,14 @@ public class MovieAPI {
         });
     }
 
+    OkHttpClient okHttpClientTrailers;
+    Call callTrailers;
     public void getTrailers(String ID) {
-        OkHttpClient okHttpClient = new OkHttpClient();
+        okHttpClientTrailers = new OkHttpClient();
         String requestURL = MAIN_URL+"movie/"+ID+"/videos?api_key="+API_KEY;
         Request request = new Request.Builder().url(requestURL).build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
+        callTrailers = okHttpClientTrailers.newCall(request);
+        callTrailers.enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
                 dataListener.DataRetrieved("", TYPE_MOVIE_TRAILER, STATUS_FAILED);
@@ -204,7 +208,7 @@ public class MovieAPI {
 
             @Override
             public void onResponse(Response response) throws IOException {
-                if (response.isSuccessful()) {
+                if (response.isSuccessful() && dataListener != null) {
                     String review = response.body().string();
                     if (review != null)
                         dataListener.DataRetrieved(review, TYPE_MOVIE_TRAILER, STATUS_SUCCESS);
@@ -213,6 +217,13 @@ public class MovieAPI {
                 }
             }
         });
+    }
+
+    public void cancelRequest(){
+        /*okHttpClientReview.cancel(null);
+        okHttpClientTrailers.cancel(null);*/
+        callReview.cancel();;
+        callTrailers.cancel();
     }
 
     public static String getImageURL(Context context){
