@@ -173,7 +173,7 @@ public class MovieListActivity extends AppCompatActivity implements DataListener
 
     @Override
     public void onLoaderReset(Loader loader) {
-
+        adapter.refresh(new LinkedHashMap<String,MovieDetailDO>());
     }
 
     private void showGrid(final LinkedHashMap<String,MovieDetailDO> arrMovies) {
